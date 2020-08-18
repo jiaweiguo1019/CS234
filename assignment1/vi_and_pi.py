@@ -174,21 +174,12 @@ def value_iteration(P, nS, nA, gamma=0.9, tol=1e-3):
                     prob, next_state, reward, terminal = item
                     v_candidate += prob * \
                         (reward + gamma * prev_value_function[next_state])
-                value_function[s] = max(value_function[s], v_candidate)
+                if v_candidate > value_function[s]:
+                    value_function[s] = v_candidate
+                    policy[s] = a
         if np.sum(np.abs(value_function - prev_value_function)) < tol:
             break
 
-    for s in range(nS):
-        prev_max = -float('inf')
-        for a in range(nA):
-            v_candidate = 0.0
-            for item in P[s][a]:
-                prob, next_state, reward, terminal = item
-                v_candidate += prob * \
-                    (reward + gamma * prev_value_function[next_state])
-            if v_candidate > prev_max:
-                prev_max = v_candidate
-                policy[s] = a
     ############################
     return value_function, policy
 
