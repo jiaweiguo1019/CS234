@@ -90,6 +90,9 @@ class DQN(QN):
         # add optmizer for the main networks
         self.add_optimizer_op("q")
 
+        # tensorboard stuff
+        self.add_summary()
+
 
     def initialize(self):
         """
@@ -98,9 +101,6 @@ class DQN(QN):
         """
         # create tf session
         self.sess = tf.Session()
-
-        # tensorboard stuff
-        self.add_summary()
 
         # initiliaze all variables
         init = tf.global_variables_initializer()
@@ -112,7 +112,7 @@ class DQN(QN):
         # for saving networks weights
         self.saver = tf.train.Saver()
 
-       
+
     def add_summary(self):
         """
         Tensorboard stuff
@@ -145,9 +145,7 @@ class DQN(QN):
             
         # logging
         self.merged = tf.summary.merge_all()
-        self.file_writer = tf.summary.FileWriter(self.config.output_path, 
-                                                self.sess.graph)
-
+        self.file_writer = tf.summary.FileWriter(self.config.output_path)
 
 
     def save(self):

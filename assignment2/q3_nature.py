@@ -55,7 +55,13 @@ class NatureQN(Linear):
         ##############################################################
         ################ YOUR CODE HERE - 10-15 lines ################ 
 
-        pass
+        with tf.variable_scope(scope, reuse=reuse):
+            conv_1 = tf.layers.conv2d(state, 32, kernel_size=(8, 8), strides=(4, 4), padding='same', activation='relu')
+            conv_2 = tf.layers.conv2d(conv_1, 64, kernel_size=(4, 4), strides=(2, 2), padding='same', activation='relu')
+            conv_3 = tf.layers.conv2d(conv_2, 64, kernel_size=(3, 3), strides=(1, 1), activation='relu')
+            conv_flattend = tf.layers.flatten(conv_3)
+            dense_1 = tf.layers.dense(conv_flattend, 512, activation='relu')
+            out = tf.layers.dense(dense_1, num_actions, activation=None)
 
         ##############################################################
         ######################## END YOUR CODE #######################
